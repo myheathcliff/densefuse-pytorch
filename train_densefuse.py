@@ -18,7 +18,7 @@ import pytorch_msssim
 
 
 def main():
-	# os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+	# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 	original_imgs_path = utils.list_images(args.dataset)
 	train_num = 40000
 	original_imgs_path = original_imgs_path[:train_num]
@@ -33,7 +33,7 @@ def train(i, original_imgs_path):
 	batch_size = args.batch_size
 
 	# load network model, RGB
-	in_c = 1 # 1 - gray; 3 - RGB
+	in_c = 3 # 1 - gray; 3 - RGB
 	if in_c == 1:
 		img_model = 'L'
 	else:

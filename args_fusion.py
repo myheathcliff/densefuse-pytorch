@@ -4,7 +4,8 @@ class args():
 	# training args
 	epochs = 4 #"number of training epochs, default is 2"
 	batch_size = 4 #"batch size for training, default is 4"
-	dataset = "MSCOCO 2014 path"
+	# batch_size = 32 #"batch size for training, default is 4"
+	dataset = "train2014"
 	HEIGHT = 256
 	WIDTH = 256
 

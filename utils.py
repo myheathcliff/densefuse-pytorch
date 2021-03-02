@@ -6,9 +6,10 @@ import numpy as np
 import torch
 from PIL import Image
 from torch.autograd import Variable
-from torch.utils.serialization import load_lua
+# from torch.utils.serialization import load_lua
 from args_fusion import args
-from scipy.misc import imread, imsave, imresize
+# from scipy.misc import imread, imsave, imresize
+from imageio import imread, imwrite
 import matplotlib as mpl
 import cv2
 from torchvision import datasets, transforms
@@ -100,12 +101,12 @@ def load_dataset(image_path, BATCH_SIZE, num_imgs=None):
 
 def get_image(path, height=256, width=256, mode='L'):
     if mode == 'L':
-        image = imread(path, mode=mode)
+        image = imread(path)
     elif mode == 'RGB':
-        image = Image.open(path).convert('RGB')
+        image = np.array(Image.open(path).convert('RGB'))
 
     if height is not None and width is not None:
-        image = imresize(image, [height, width], interp='nearest')
+        image = cv2.resize(image, (height, width), interpolation=cv2.INTER_NEAREST)
     return image
 
 
@@ -165,7 +166,7 @@ def save_images(path, data):
 
     if data.shape[2] == 1:
         data = data.reshape([data.shape[0], data.shape[1]])
-    imsave(path, data)
+    imwrite(path, data)
 
     # for i, path in enumerate(paths):
     #     data = datas[i]

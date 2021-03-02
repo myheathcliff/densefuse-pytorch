@@ -7,6 +7,7 @@ from args_fusion import args
 import numpy as np
 import time
 import cv2
+import os
 
 
 def load_model(path, input_nc, output_nc):
@@ -56,7 +57,6 @@ def run_demo(model, infrared_path, visible_path, output_path_root, index, fusion
 	ir_img = Variable(ir_img, requires_grad=False)
 	vis_img = Variable(vis_img, requires_grad=False)
 	dimension = ir_img.size()
-
 	img_fusion = _generate_fusion_image(model, strategy_type, ir_img, vis_img)
 	############################ multi outputs ##############################################
 	file_name = 'fusion_' + fusion_type + '_' + str(index) +  '_network_' + network_type + '_' + strategy_type + '_' + ssim_weight_str + '.png'
@@ -116,11 +116,14 @@ def main():
 		print('SSIM weight ----- ' + args.ssim_path[2])
 		ssim_weight_str = args.ssim_path[2]
 		model = load_model(model_path, in_c, out_c)
-		for i in range(1):
+		for i in range(10):
 			index = i + 1
-			infrared_path = test_path + 'IR' + str(index) + '.jpg'
-			visible_path = test_path + 'VIS' + str(index) + '.jpg'
+			infrared_path = test_path + 'IR' + str(index) + '.png'
+			visible_path = test_path + 'VIS' + str(index) + '.png'
+			import time
+			t1 = time.time()
 			run_demo(model, infrared_path, visible_path, output_path, index, fusion_type, network_type, strategy_type, ssim_weight_str, mode)
+			print(time.time() - t1)
 	print('Done......')
 
 if __name__ == '__main__':
